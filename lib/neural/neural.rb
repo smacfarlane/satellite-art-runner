@@ -37,7 +37,7 @@ module Neural
     end
 
     def neural_cmd
-      "qlua main.lua --style #{style} --content #{image} #{options_to_flags}"
+      "qlua main.lua --style #{style} --content #{image} --display-interval 0 #{options_to_flags}"
     end
 
     def sanitize_options(options)
