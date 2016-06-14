@@ -21,7 +21,7 @@ module Neural
     end
 
     def result
-      "0500.jpg"
+      Dir.glob("frames/*.jpg").sort.last
     end
 
     private

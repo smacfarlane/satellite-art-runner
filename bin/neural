@@ -16,7 +16,7 @@ artworks = SatelliteArt.fetch_pending!("#{URL}/api/v1/artworks")
 artworks.each do |art|
   tempdir = Dir.mktmpdir
   Dir.chdir tempdir
-
+  
   art.fetch!
   n = Neural::Neural.new(SatelliteArt::SRC_IMAGE, art.style, art.options)
   n.run
