@@ -10,8 +10,8 @@ module Neural
     NEURAL_PATH = ENV['NEURAL_PATH']
 
     def initialize(source, style, options)
-      @source = fetch_image(source)
-      @style = fetch_image(style)
+      @source = source
+      @style = style
       @options = sanitize_options(options)
     end
 
@@ -20,22 +20,15 @@ module Neural
       @command.run_command
     end
 
+    def success?
+      !@command.nil? && @command.status == 0
+    end
+    
     def result
       Dir.glob("frames/*.jpg").sort.last
     end
 
     private
-    def fetch_image(src)
-      return src unless src.start_with?("http")
-
-      image = RestClient.get(src)
-      raise Neural::NetworkError unless image.code == 200
-
-      file = Tempfile.new('style', 'wb')
-      file.write(image.body)
-      file
-    end
-
     def neural_cmd
       "qlua main.lua --style #{style} --content #{source} --display-interval 0 #{options_to_flags}"
     end

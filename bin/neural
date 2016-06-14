@@ -21,5 +21,7 @@ artworks.each do |art|
   n = Neural::Neural.new(art.source, art.style, art.options)
   n.run
 
-  art.upload!(n.result)
+  if n.success?
+    art.upload!(n.result)
+  end
 end
