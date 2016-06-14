@@ -3,9 +3,9 @@ require 'json'
 
 class SatelliteArt
   TOKEN = (ENV['SA_TOKEN']).freeze
-  SRC_IMAGE = ("image.png").freeze
+  SRC_IMAGE = (ENV['SA_SRC_IMAGE'] || "image.png").freeze
 
-  attr_reader :style, :options
+  attr_reader :source, :style, :options
 
   def self.fetch_pending!(url)
     response = SatelliteArt.get url, content_type: :json, accept: :json
@@ -33,6 +33,7 @@ class SatelliteArt
 
     payload = JSON.parse(response.body)
     @style = payload.delete('style_url')
+    @source = payload.delete('source_url')
     @options = payload
   end
 

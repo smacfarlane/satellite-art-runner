@@ -4,13 +4,13 @@ require 'tempfile'
 
 module Neural
   class Neural
-    attr_reader :image, :style, :options
+    attr_reader :source, :style, :options
 
     VALID_PARAMS = %w(model num_iters size)
     NEURAL_PATH = ENV['NEURAL_PATH']
 
-    def initialize(image, style, options)
-      @image = fetch_image(image)
+    def initialize(source, style, options)
+      @source = fetch_image(source)
       @style = fetch_image(style)
       @options = sanitize_options(options)
     end
@@ -37,7 +37,7 @@ module Neural
     end
 
     def neural_cmd
-      "qlua main.lua --style #{style} --content #{image} --display-interval 0 #{options_to_flags}"
+      "qlua main.lua --style #{style} --content #{source} --display-interval 0 #{options_to_flags}"
     end
 
     def sanitize_options(options)
